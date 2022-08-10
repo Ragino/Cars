@@ -1,5 +1,3 @@
-import findspark
-findspark.init()
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, asc,desc, min, max, from_json, split
 from pyspark.sql.types import MapType, StringType
@@ -14,8 +12,6 @@ car = cars.withColumnRenamed("Attribute Values", "Attribute_values")\
      .withColumnRenamed("Attribute Names","Attribute_names")
 car.select("Attribute_values").filter("Attribute_names == 'BodyTypeText'").groupby("Attribute_values").count().show(truncate=False)
 
-df = cars.withColumn("CarType", split(cars['TypeName'], ' ')) \
-     .select(F.expr('CarType[2]').alias("Car"), "Attribute Values").filter("Car == 'Coupé' ")
 # cars.printSchema()
 
 car.createOrReplaceTempView("data")
